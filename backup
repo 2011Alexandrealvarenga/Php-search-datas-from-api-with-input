@@ -1,0 +1,80 @@
+<?php get_header();?>
+<style>
+  .external-content{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .external-content .content{
+    border: 1px solid black;
+    margin: 10px;
+    width: 500px;
+    padding: 8px;
+  }
+  .external-content .social_media{
+    display: flex;
+    justify-content: space-between;
+  }
+  .img_avatar{
+    border-radius: 50%;
+  }
+</style>
+<?php
+    $urlEmbed = 'https://api.giphy.com/v1/gifs/trending?api_key=pLURtkhVrUXr3KG25Gy5IvzziV5OrZGa';
+    $responseEmbed = wp_remote_get( $urlEmbed, array(
+        'method'      => 'GET'
+        )
+    );     
+    if ( is_wp_error( $responseEmbed ) ) {      
+        return false;
+    } else {
+        $rEmbed = wp_remote_retrieve_body( $responseEmbed );
+        $result = json_decode($rEmbed, true);
+    }
+    ?>
+<pre>
+
+  <?php 
+  // var_dump($result) 
+  ;?>
+</pre>
+ 
+    <div class="external-content">
+      <?php foreach($result['data'] as $get_result){?>
+      <div class="content">
+        <a href="<?php echo $get_result['url'] ;?>">
+          <p>Titulo: <?php echo $get_result['title'] ;?></p>
+        </a>
+        <p class="">Id: <?php echo $get_result['id'] ;?></p>
+          <?php           
+            $new_image = $get_result['images']['480w_still']['url'];            
+            $image_new = substr($new_image, 0, -5);
+          ;?>
+        
+        <img src="<?php echo $image_new?>" width="270px" height="270px">
+        <br><br>
+        <hr>
+        <?php $user_data = $get_result['user']['username'];?>
+           
+            <?php
+              if($user_data){?>
+                <p>User: <?php echo $user_data;?></p>
+                <?php 
+              }          
+            ;?>
+          <p>Avatar: <img class="img_avatar" src="<?php echo $get_result['user']['banner_image'] ;?>" width="50px" height="50px"></p>
+          <p>Description: <?php echo $get_result['user']['description'] ;?></p>
+          <p>Social media: </p>
+          <div class="social_media">
+            <a href="<?php echo $get_result['user']['profile_url'] ;?>">Portfolio </a> 
+            <a href="<?php echo $get_result['user']['instagram_url'] ;?>">Instagram </a> 
+            <a href="<?php echo $get_result['user']['website_url'] ;?>">Website </a> 
+          </div>
+  
+      </div>
+      <?php }?>
+    </div>
+
+
+
+<?php  get_footer();?>
