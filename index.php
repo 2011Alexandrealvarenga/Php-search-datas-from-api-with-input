@@ -1,5 +1,4 @@
 <?php
-// Sample array
 /*
 CONSUMI DADOS DE ARRAY ... AGORA PRECISO FAZER COM API
 
@@ -24,25 +23,21 @@ if ($response !== false) {
 }
 // dados da api
 
-// Initialize result variable
 $result = null;
 
-// Check if the form has been submitted
 if (isset($_POST['search'])) {
     $input = $_POST['search'];
     
-    // Function to search for a name in the array
     function searchArray($array, $input) {
         $matches = [];
         foreach ($array['data'] as $item) {
             if (stripos($item['title'], $input) !== false) {
-                $matches[] = $item; // Collect all matches found
+                $matches[] = $item;
             }
         }
-        return $matches; // Return all matches
+        return $matches; 
     }
 
-    // Call the search function
     $result = searchArray($data, $input);
 }
 ?>
@@ -55,6 +50,13 @@ if (isset($_POST['search'])) {
     <title>Search Example</title>
 </head>
 <body>
+    <p>List</p>
+    <ul>
+        <?php foreach ($data['data'] as $item): ?>
+            <li><?php echo htmlspecialchars($item['title']); ?></li>
+        <?php endforeach; ?>
+    </ul>
+    <hr>
     <h1>Search</h1>
     <form method="POST">
         <input type="text" name="search" placeholder="Type a name..." required>
