@@ -1,17 +1,4 @@
 <?php
-/*
-CONSUMI DADOS DE ARRAY ... AGORA PRECISO FAZER COM API
-
-
-$data = [
-    ['id' => 1, 'name' => 'Alice'],
-    ['id' => 2, 'name' => 'Bob'],
-    ['id' => 3, 'name' => 'Charlie'],
-];
-
-*/
-
-
 // dados da api
 $url = "https://api.giphy.com/v1/gifs/trending?api_key=pLURtkhVrUXr3KG25Gy5IvzziV5OrZGa";
 $response = file_get_contents($url);
@@ -22,7 +9,11 @@ if ($response !== false) {
     echo "Error fetching data.";
 }
 // dados da api
-
+?>
+    <pre>
+      <?php var_dump($data);?>
+    </pre>
+<?php 
 $result = null;
 
 if (isset($_POST['search'])) {
@@ -69,13 +60,7 @@ if (isset($_POST['search'])) {
     <title>Search Example</title>
 </head>
 <body>
-    <p>List</p>
-    <ul>
-        <?php foreach ($data['data'] as $item): ?>
-            <li><?php echo htmlspecialchars($item['title']); ?></li>
-        <?php endforeach; ?>
-    </ul>
-    <hr>
+    
     <h1>Search</h1>
     <form method="POST">
         <input type="text" name="search" placeholder="Type a name..." required>
@@ -110,7 +95,7 @@ if (isset($_POST['search'])) {
                                     <?php 
                                 }          
                                 ;?>
-                            <p>Avatar: <img class="img_avatar" src="<?php echo $item['user']['banner_image'] ;?>" width="50px" height="50px"></p>
+                            <p>Avatar: <img class="img_avatar" src="<?php echo $item['user']['avatar_url'] ;?>" width="50px" height="50px"></p>
                             <p>Description: <?php echo $item['user']['description'] ;?></p>
                             <p>Social media: </p>
                             <div class="social_media">
@@ -126,6 +111,14 @@ if (isset($_POST['search'])) {
             <?php endif; ?>
         </div>
     <!-- end - search results -->
+    <hr>
+    <p>Item List</p>
+    <ul>
+        <?php foreach ($data['data'] as $item): ?>
+            <li><?php echo htmlspecialchars($item['title']); ?></li>
+        <?php endforeach; ?>
+    </ul>
+    <hr>
 
 </body>
 </html>
