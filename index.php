@@ -41,7 +41,7 @@ if (isset($_POST['search'])) {
   .external-content .content{
     border: 1px solid black;
     margin: 10px;
-    width: 500px;
+    width: 200px;
     padding: 8px;
   }
   .external-content .social_media{
@@ -57,7 +57,7 @@ if (isset($_POST['search'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Search Example</title>
+    <title>Search Itens from API</title>
 </head>
 <body>
     
