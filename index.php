@@ -11,7 +11,7 @@ if ($response !== false) {
 // dados da api
 ?>
     <pre>
-      <?php var_dump($data);?>
+      <?php //var_dump($data);?>
     </pre>
 <?php 
 $result = null;
@@ -84,25 +84,24 @@ if (isset($_POST['search'])) {
                                 $image_new = substr($new_image, 0, -5);
                             ;?>
                             
-                            <img src="<?php echo $image_new ;?>" width="270px" height="270px">
+                            <img src="<?php echo $image_new ;?>" width="70px" height="70px">
                             <br><br>
-                            <hr>
-                            <?php $user_data = $item['user']['username'];?>
-                            
-                                <?php
-                                if($user_data){?>
-                                    <p>User: <?php echo $user_data;?></p>
+                            <hr>                            
+                                <?php if(isset($item['user'])){?>
+                                    <p>User: <?php echo $item['user']['username'];?></p>
+                                    <p>Avatar:<br> <img class="img_avatar" src="<?php echo $item['user']['avatar_url'] ;?>" width="50px" height="50px"></p>
+                                    <p>Description: <?php echo $item['user']['description'] ;?></p>
+                                    <p>Social media: </p>
+                                    <div class="social_media">
+                                        <a href="<?php echo $item['user']['profile_url'] ;?>">Portfolio </a> 
+                                        <a href="<?php echo $item['user']['instagram_url'] ;?>">Instagram </a> 
+                                        <a href="<?php echo $item['user']['website_url'] ;?>">Website </a> 
+                                    </div>
                                     <?php 
+                                }else{
+                                    echo "<p>There is no Avatar</p>";
                                 }          
                                 ;?>
-                            <p>Avatar: <img class="img_avatar" src="<?php echo $item['user']['avatar_url'] ;?>" width="50px" height="50px"></p>
-                            <p>Description: <?php echo $item['user']['description'] ;?></p>
-                            <p>Social media: </p>
-                            <div class="social_media">
-                                <a href="<?php echo $item['user']['profile_url'] ;?>">Portfolio </a> 
-                                <a href="<?php echo $item['user']['instagram_url'] ;?>">Instagram </a> 
-                                <a href="<?php echo $item['user']['website_url'] ;?>">Website </a> 
-                            </div>
                         </div>
                     <?php endforeach; ?>
                 <?php else: ?>
@@ -114,8 +113,19 @@ if (isset($_POST['search'])) {
     <hr>
     <p>Item List</p>
     <ul>
-        <?php foreach ($data['data'] as $item): ?>
-            <li><?php echo htmlspecialchars($item['title']); ?></li>
+        <?php         
+        $count = 01;
+        foreach ($data['data'] as $item): ?>
+            <?php 
+                $count = sprintf('%02d', $count);
+                if(isset($item['title'])){?>
+                    <li>Qtd: <?php echo $count;?> - Lista: <?php echo htmlspecialchars($item['title']); ?></li>
+                    <?php }else{
+                       echo "<p>There is no title</p>";
+                }                    
+                $count++;
+            ;?>
+
         <?php endforeach; ?>
     </ul>
     <hr>
